@@ -9,8 +9,8 @@ services:
     volumes:  
       - ./jenkins_home:/var/jenkins_home
     container_name: jenkins
-    networks:
-      - jenkins
+    # networks:
+    #  - jenkins
 
   sonarqube:
     image: sonarqube:community
@@ -27,8 +27,8 @@ services:
     ports:
       - "9000:9000"
     container_name: sonarqube
-    networks:
-      - jenkins  
+    # networks:
+    #   - jenkins  
   db:
     image: postgres:12
     environment:
