@@ -8,6 +8,8 @@ volumes:
   sonarqube_data: {}
   sonarqube_extensions: {}
   sonarqube_logs: {}
+  # maven-data: {}
+  tomcat-data: {}
 
 services:
   jenkins:
@@ -66,3 +68,25 @@ services:
     environment:
       - SONATYPE_NE=nexus  # Set initial admin password (change for production)
     # restart: unless-stopped
+
+  # maven:
+  #   image: maven:3.8.1-openjdk-11
+  #   volumes:
+  #     - ./untitled:/usr/src/mymaven
+  #     - maven-data:/root/.m2
+  #   working_dir: /usr/src/mymaven
+  #   command: mvn clean install
+  #   environment:
+  #     - MAVEN_OPTS=-Xmx512m  # Set the maximum heap size for the JVM running Maven
+
+  tomcat:
+    image: tomcat:9.0
+    ports:
+      - 8082:8080
+    volumes:
+      - ./target:/usr/local/tomcat/webapps
+      - tomcat-data:/usr/local/tomcat
+    # depends_on:
+      # - maven
+    environment:
+      - CATALINA_OPTS=-Xmx512m  # Set the maximum heap size for the JVM running Tomcat
